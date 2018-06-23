@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+function take() {
+  mkdir "$1"
+  cd "$1"
+}
+
+function kill_rubies() {
+  for each in `ps -eo pid,command | grep ruby | grep -v grep | awk '{print $1}' `; do kill -9 $each; done
+}
+
+function server_start() {
+    if [ "$1" = "" ] 
+    then
+        python -m SimpleHTTPServer 8000
+    else
+        python -m SimpleHTTPServer $1
+    fi
+}
+
+function psqldb() {
+  if [ "$1" = "stop" ]
+  then
+    pg_ctl -D /usr/local/var/postgresql@9.6 stop -s -m fast
+  else
+    pg_ctl -D /usr/local/var/postgresql@9.6 -l /usr/local/var/postgresql@9.6/server.log start  
+  fi
+}
+
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}

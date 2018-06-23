@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+#export PS1="\[\e[1;1m\]\h:\W \\$ \[\e[0m\]"
+export PS1="\[\033[1m\]\h: \[\033[0;32m\]\w\[\033[0;33m\]\$(parse_git_branch)\n\[\033[0;1m\]└─ \$\[\e[0m\] "

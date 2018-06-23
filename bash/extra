@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+FILE=~/.extra
+
+test -f $FILE && source $FILE

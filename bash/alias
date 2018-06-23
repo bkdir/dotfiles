@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+alias profile="vim ~/.bash_profile"
+alias reload_profile=". ~/.bash_profile"
+
+alias vi="vim -u ~/.vimrc"
+alias vimrc="vim ~/.vimrc"
+
+alias notes="cd ~/Documents/Notes"
+
+alias ls="ls -G"
+alias l="ls -G -al"
+
+# Project paths:
+alias website="cd ~/Plated/website"
+alias perp="cd ~/Plated/perp"
+alias ops="cd ~/Plated/ops"
+alias ins="cd ~/Plated/insights"
+
+# negotiator gem -_-
+alias nego="cd ~/.gem/ruby/2.5.0/gems/negotiator-1.7.6"
+
+# Heroku
+alias console="heroku run rails console -r production"
+alias devconsole="heroku run rails console -r staging"
+
+# Git
+alias ga='git add'
+alias gs='git status'
+alias gc='git commit -m'
+alias gb='git branch'
+alias gd='git diff'
+alias gl='git log --oneline --graph --decorate --all'
+alias gp='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
+alias gdc='git diff --cached'
+alias gdt='git difftool'
+alias gco='git checkout'
+alias gdtree='git diff-tree --no-commit-id --name-status -r'
+
+alias rake='bundle exec rake'
+alias rubocop='bundle exec rubocop'
+alias testit='spring rspec spec'
