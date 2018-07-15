@@ -94,6 +94,8 @@ set cpoptions-=u
 
 " -------------------- Mapping
 map ,rs :!clear; spring rspec %<CR>
+nnoremap <buffer> <LocalLeader>s :exe "!clear; rspec %"<CR>
+nnoremap <buffer> <LocalLeader>cs :exe "!clear; rspec ".expand("%").":".line(".")<CR>
 map ,cr :!clear; ruby -cw %<CR>
 
 " Shift+q pops up a 'close buffers' menu to delete buffers
