@@ -19,6 +19,7 @@ execute pathogen#infect()
 call pathogen#helptags()
 
 syntax on
+set t_Co=256
 set background=dark
 colorscheme solarized
 
@@ -85,23 +86,42 @@ set nobackup
 set nowritebackup
 
 " DoMatchParen
-set cinkeys=
+" set cinkeys=
 set comments=
 "set indentkeys=
 set tildeop
 
 set cpoptions-=u
 
-" -------------------- Mapping
-map ,rs :!clear; spring rspec %<CR>
-nnoremap <buffer> <LocalLeader>s :exe "!clear; rspec %"<CR>
-nnoremap <buffer> <LocalLeader>cs :exe "!clear; rspec ".expand("%").":".line(".")<CR>
+set splitright
+set splitbelow
+set noshowmode
+
+" speed up syntax highlighting
+set nocursorcolumn
+
+" Completion window max size
+set pumheight=10
+
+set noshowmatch
+
+" to enable project specific .vimrc configuration
+set exrc
+set secure
+
+" =============== Mapping
+
+map ,rs :!clear; rspec %<CR>
+map <LocalLeader>s :exe "!clear; rspec %"<CR>
+map <LocalLeader>cs :exe "!clear; rspec ".expand("%").":".line(".")<CR>
 map ,cr :!clear; ruby -cw %<CR>
 
 " Shift+q pops up a 'close buffers' menu to delete buffers
 nnoremap Q :CloseBuffersMenu<CR>
 " Ctrl+C moves to next buffer, deletes the current one
 nnoremap <C-c> :bp\|bd #<CR>
+
+" ===============  CommandT
 
 let g:CommandTAcceptSelectionSplitMap=['<CR>', '<C-i>']
 let g:CommandTWildIgnore=&wildignore . ",*.swp,*.jpg,log,node_modules,tags,tmp,vendor,webpack"
@@ -112,7 +132,41 @@ let g:CommandTScanDotDirectories=0
 imap <Tab> <C-n>
 imap <S-Tab> <C-p>
 
-" --------------------- NERDTree
+"JS syntax highlight
+"if (has("termguicolors"))
+"  set termguicolors
+"endif
+
+"colorscheme OceanicNext
+
+" =============== auto commands
+
+augroup vimrc-ruby
+  autocmd!
+  autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2
+augroup END
+
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+augroup END
+
+augroup filetypedetect
+  command! -nargs=* -complete=help Help vertical belowright help <args>
+  autocmd FileType help wincmd L
+
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.html setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
+
+  autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
+augroup END
+
+" =============== NERDTree
 
 " make it visible by default
 " au VimEnter *  NERDTree
@@ -121,7 +175,7 @@ imap <S-Tab> <C-p>
 " F5 toggles NERDTree window
 nmap <F5> :NERDTreeToggle<CR>
 
-" ---------------------- The Silver Searcher
+" =============== The Silver Searcher
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
@@ -141,4 +195,49 @@ if executable('ag')
   cnoreabbrev Ack Ack!
 end
 
-set noshowmatch
+" =============== syntastic
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_go_checkers = ['gofmt','golint']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+" =============== vim-airline
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline#extensions#branch#prefix     = '⤴'
+let g:airline#extensions#readonly#symbol   = '⊘'
+let g:airline#extensions#linecolumn#prefix = '¶'
+let g:airline#extensions#paste#symbol      = 'ρ'
+let g:airline_symbols.branch    = '⎇'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+
+" ===================== vim-go
+
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:syntastic_go_checkers = ['golint', 'govet']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 1

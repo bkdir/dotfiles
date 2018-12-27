@@ -21,9 +21,9 @@ function server_start() {
 function psqldb() {
   if [ "$1" = "stop" ]
   then
-    pg_ctl -D /usr/local/var/postgresql@9.6 stop -s -m fast
+    pg_ctl -D /usr/local/var/postgres stop -s -m fast
   else
-    pg_ctl -D /usr/local/var/postgresql@9.6 -l /usr/local/var/postgresql@9.6/server.log start  
+    pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start  
   fi
 }
 

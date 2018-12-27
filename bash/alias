@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-alias profile="vim ~/.bash_profile"
+alias profile="vim ~/bin/dotfiles/bash"
 alias reload_profile=". ~/.bash_profile"
+alias python="python3"
 
 alias vi="vim -u ~/.vimrc"
 alias vimrc="vim ~/.vimrc"
